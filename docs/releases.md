@@ -13,6 +13,7 @@ dist/
     ios/       dsh-remote-<version>-ios-release.ipa
     harmony/   dsh-remote-<version>-harmony-release.hap
     desktop/   dsh-remote-<version>-desktop-release.dmg
+    plugin/    dsh-remote-tunnel-<plugin-version>.tgz
 ```
 
 Only platforms actually built have output directories. Each export creates its own checksums and manifest. Manifests contain relative filenames, byte counts and hashes, with no local machine or server metadata. A filename containing `unsigned` keeps that suffix when exported.
@@ -27,6 +28,21 @@ make release-android  # release APK/AAB + export
 Signing is optional at build time. To sign your own release, place your key in `.local/signing/android/`, copy `mobile/keystore.properties.example` to `mobile/keystore.properties`, and configure the values locally. `storeFile` resolves relative to `mobile/androidApp/`. Neither signing properties nor keys are committed. Keep a secure backup of the key needed to update existing installations.
 
 A release build without signing properties produces an unsigned APK; do not label it as installable or verified. Verify signed artifacts with your SDK's `apksigner verify` before distribution. GitHub CI uses debug signing and does not have a production key.
+
+## DSH plugin
+
+Package only the plugin's declared public files (prebuilt JavaScript, bundle
+patch, README and license):
+
+```sh
+mkdir -p "dist/$(cat VERSION)/plugin"
+npm pack ./plugin --ignore-scripts --pack-destination "dist/$(cat VERSION)/plugin"
+```
+
+The tarball uses the independently managed version in `plugin/package.json`.
+Upload it as a Release asset. Its HTTPS download URL can be pasted into DSH's
+**Plugins → Add plugin** dialog or passed to `dsh plugin --profile web add`.
+The repository's Git URL is not a plugin package, and npm publication is separate.
 
 ## Other platforms
 

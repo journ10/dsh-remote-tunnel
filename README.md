@@ -64,15 +64,28 @@ Replace the example values. Create DNS records for `relay.example.com` and `*.re
 
 ### 2. Connect the DSH plugin
 
+Open **Plugins → Add plugin** in DSH, paste the URL below, install it, and choose
+**Enable now**:
+
+```text
+https://github.com/journ10/dsh-remote-tunnel/releases/download/v0.36.0/dsh-remote-tunnel-0.2.0.tgz
+```
+
+Or install into your Web UI's profile from the CLI:
+
 ```sh
-dsh plugin --profile web add /path/to/dsh-remote-tunnel/plugin
+dsh plugin --profile web add https://github.com/journ10/dsh-remote-tunnel/releases/download/v0.36.0/dsh-remote-tunnel-0.2.0.tgz
 ```
 
 Apply the configuration printed by the installer to the DSH profile, restart DSH, then open **Plugins → dsh-remote-tunnel → 服务器连接** to configure the instance token. The token is stored locally with restricted permissions. Generate a pairing QR when the tunnel is connected. See [plugin setup](plugin/README.md).
 
-### 3. Build the KMP Android app
+### 3. Install the KMP Android app
 
-Install JDK 17 and Android SDK 35, then:
+Download the signed APK from [GitHub Releases](https://github.com/journ10/dsh-remote-tunnel/releases/latest).
+Android 8.0 (API 26) or later is required. The AAB is a distribution bundle, not
+an APK you can install directly.
+
+To build from source, install JDK 17 and Android SDK 35, then:
 
 ```sh
 cd mobile

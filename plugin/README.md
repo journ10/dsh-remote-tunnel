@@ -6,13 +6,33 @@ DSH browser cookie minted on this machine.
 
 ## Install
 
-```sh
-# from the repository root
-dsh plugin --profile web add ./plugin
+In DSH, open **Plugins → Add plugin** and paste this prebuilt package URL:
 
-# or from a published package
-dsh plugin --profile web add dsh-remote-tunnel
+```text
+https://github.com/journ10/dsh-remote-tunnel/releases/download/v0.36.0/dsh-remote-tunnel-0.2.0.tgz
 ```
+
+Install it, then choose **Enable now**. This is the standalone plugin package;
+the repository root contains several components and is not an installable npm
+package. The package name alone is not an installation source: this project
+has not published `dsh-remote-tunnel` to the npm registry.
+
+The equivalent CLI installation is:
+
+```sh
+dsh plugin --profile web add https://github.com/journ10/dsh-remote-tunnel/releases/download/v0.36.0/dsh-remote-tunnel-0.2.0.tgz
+```
+
+For development, install dependencies before linking the local checkout:
+
+```sh
+pnpm --dir plugin install --frozen-lockfile
+dsh plugin --profile web add ./plugin
+```
+
+Installing the package does not deploy a relay or supply connection credentials.
+Configure your own relay as described below. Use the profile that actually hosts
+your DSH Web UI; `web` is the example profile.
 
 Then edit the profile's `cordis.patch.yml`:
 
