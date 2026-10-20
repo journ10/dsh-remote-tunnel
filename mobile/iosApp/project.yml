@@ -1,0 +1,31 @@
+name: DSHRemote
+options:
+  bundleIdPrefix: com.dshremote
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+targets:
+  DSHRemote:
+    type: application
+    platform: iOS
+    sources:
+      - path: App
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.dshremote.app.ios
+        INFOPLIST_FILE: App/Info.plist
+        FRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator*]: "$(SRCROOT)/../composeApp/build/bin/iosSimulatorArm64/debugFramework"
+        FRAMEWORK_SEARCH_PATHS[sdk=iphoneos*]: "$(SRCROOT)/../composeApp/build/bin/iosArm64/debugFramework"
+        OTHER_LDFLAGS: "-framework ComposeApp"
+schemes:
+  DSHRemote:
+    build:
+      targets:
+        DSHRemote: all
+    run:
+      config: Debug

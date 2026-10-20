@@ -1,0 +1,20 @@
+{
+  "name": "dsh-remote-tunnel-relay",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Self-hosted HTTPS relay for dsh-remote-tunnel: TLS, pairing, device auth, and a multiplexed WebSocket tunnel to DSH.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test test/*.test.js",
+    "cli": "node src/cli.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.3"
+  }
+}

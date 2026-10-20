@@ -1,0 +1,41 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+/.idea/
+/.kotlin/
+# Gradle 各子模块的构建产物（原来的 /build 只忽略了根目录，漏掉了 composeApp/build 等）
+**/build/
+# 本地验证截图等输出
+/outputs/
+
+# ---------------------------------------------------------------------------
+# 鸿蒙 / DevEco Studio
+# ---------------------------------------------------------------------------
+/harmonyApp/.idea/
+/harmonyApp/.hvigor/
+/harmonyApp/oh_modules/
+/harmonyApp/**/oh_modules/
+/harmonyApp/.clangd
+/harmonyApp/.clang-tidy
+
+# K/N 产物由 :composeApp:publish{Debug,Release}BinariesToHarmonyApp 自动同步，
+# 不提交（libkn.so 单文件约 57 MB，且与本机工具链绑定）。
+# 首次克隆后先跑一次同步任务再打开 DevEco：
+#   ./gradlew :composeApp:publishDebugBinariesToHarmonyApp
+/harmonyApp/entry/libs/
+/harmonyApp/entry/src/main/cpp/include/
+
+# 鸿蒙签名配置的本地备份（含绝对路径与凭据，绝不提交）
+/harmonyApp/build-profile.json5.bak-local

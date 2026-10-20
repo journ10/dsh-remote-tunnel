@@ -1,0 +1,54 @@
+# dsh-remote-tunnel bundle patch.
+#
+# `remote-tunnel.config.domain` is the single source of truth for the public
+# instance host. The connection and web-runtime rows read it from the Loader
+# entry at startup, because trustedHosts and publicUrl are composition-time
+# config and cannot be changed by a running plugin. Editing the domain from the
+# Plugins page therefore persists to the profile patch and needs a `dsh web`
+# restart.
+#
+# This file contains placeholders only. Replace them with the values printed by
+# `server/install.sh`; do not commit a real instance token here. The token lives
+# in the file named by `tokenFile` (default
+# `$DSH_HOME/dsh-remote-tunnel/instance-token`, mode 0600).
+#
+# mode: relay  -> outbound WSS to the relay (default)
+# mode: ssh    -> legacy reverse tunnel; set sshHost/sshUser/remoteBind below.
+- id: connection
+  inject: [webStartup, loader]
+  config:
+    trustedHosts: !!js >-
+      (() => { const config = [...ctx.loader.entries()].find(entry => entry.options.id === 'remote-tunnel')?.options.config; const raw = config?.domain; const value = raw !== null && typeof raw === 'object' && typeof raw.get === 'function' ? raw.get() : raw; const extra = Array.isArray(config?.extraTrustedHosts) ? config.extraTrustedHosts : []; return [value ?? 'mac.relay.example.com', ...extra] })()
+
+- id: web-runtime
+  inject: [webStartup, loader]
+  config:
+    openBrowser: !!js ctx.webStartup.openBrowser
+    printUrl: true
+    publicUrl: !!js >-
+      `https://${(() => { const raw = [...ctx.loader.entries()].find(entry => entry.options.id === 'remote-tunnel')?.options.config?.domain; const value = raw !== null && typeof raw === 'object' && typeof raw.get === 'function' ? raw.get() : raw; return value ?? 'mac.relay.example.com' })()}/`
+    surfaceContext: true
+
+- insert:
+    - id: remote-tunnel
+      name: dsh-remote-tunnel
+      config:
+        mode: relay
+        domain: mac.relay.example.com
+        # Set this to the value printed by server/install.sh, e.g.
+        # wss://relay.example.com/tunnel. Empty means "not configured yet".
+        relayUrl: ''
+        instanceId: mac
+        localPort: 3080
+        # Extra authorities the Host/Origin fence accepts besides `domain`.
+        extraTrustedHosts: []
+        # Relay mode reads the instance token from this file. Leave empty for
+        # `$DSH_HOME/dsh-remote-tunnel/instance-token`.
+        tokenFile: ''
+        # pairingEnabled: true
+        #
+        # Legacy SSH fallback:
+        # mode: ssh
+        # sshHost: server.example.com
+        # sshUser: ubuntu
+        # remoteBind: 127.0.0.1:3080

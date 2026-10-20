@@ -1,0 +1,67 @@
+# Private machine state, recovery archives, and local tooling
+.local/
+.tooling/
+backups/
+.docker/
+**/.docker/
+.DS_Store
+*.log
+
+# Dependencies and caches
+node_modules/
+.pnpm-store/
+.npm-cache/
+.gradle/
+.kotlin/
+.hvigor/
+oh_modules/
+.idea/
+*.iml
+.cxx/
+.externalNativeBuild/
+__pycache__/
+*.pyc
+
+# Build outputs stay local; exported deliverables go to dist/<version>/<platform>/
+**/build/
+dist/
+coverage/
+.tmp/
+mobile/outputs/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.apk
+*.aab
+*.ipa
+*.hap
+*.app/
+*.dmg
+*.msi
+*.deb
+
+# Deployment state and secrets (examples are safe to commit)
+.env
+.env.*
+!.env.example
+!**/.env.example
+server/data/
+server/caddy-data/
+server/caddy-config/
+local.properties
+keystore.properties
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.p7b
+*.cer
+*.pem
+*.key
+*.mobileprovision
+*.bak-local
+
+# Generated Harmony native libraries/headers/resources
+mobile/harmonyApp/entry/libs/
+mobile/harmonyApp/entry/src/main/cpp/include/
+mobile/harmonyApp/entry/src/main/resources/rawfile/composeResources/

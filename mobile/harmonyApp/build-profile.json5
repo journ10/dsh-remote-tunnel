@@ -1,0 +1,69 @@
+{
+  "app": {
+    // -----------------------------------------------------------------------
+    // 签名配置：仓库中只保留占位符。
+    //
+    // 这里的内容（证书/密钥库的绝对路径 + 加密凭据）与本机 DevEco Studio
+    // 绑定，不应提交到公开仓库。请用自己的签名替换：
+    //
+    //   DevEco Studio → File → Project Structure → Signing Configs
+    //     → 勾选 "Automatically generate signature"（需登录开发者账号）
+    //
+    // DevEco 会自动把本机的 .cer / .p7b / .p12 路径与凭据写回本文件。
+    // 使用 CLI 构建 HAP 前，请先完成这一步，否则 assembleHap 会因缺少签名失败。
+    // -----------------------------------------------------------------------
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "/path/to/your/.ohos/config/default_<project>.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "<encrypted-password>",
+          "profile": "/path/to/your/.ohos/config/default_<project>.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "/path/to/your/.ohos/config/default_<project>.p12",
+          "storePassword": "<encrypted-password>"
+        }
+      }
+    ],
+    "products": [
+      {
+        "name": "default",
+        "signingConfig": "default",
+        "targetSdkVersion": "6.0.0(20)",
+        "compatibleSdkVersion": "6.0.0(20)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "nativeCompiler": "BiSheng",
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": true
+          }
+        }
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}
